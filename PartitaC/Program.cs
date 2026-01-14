@@ -158,7 +158,7 @@
                 if (probabilità <= 20)
                 {
                     int rnd = random.Next(0,1);
-                    int rand = random.Next(0, 10);
+                    int rand = random.Next(1, 11);
                     if (rnd == 0)
                     {
                         squadraA[rand] = squadraA[rand] - 5;
@@ -175,12 +175,12 @@
                     if (cartellinoGialloA[rand] == 2)
                     {
                         
-                        Console.WriteLine("Il giocatore " + squadraA[rand] + " ha subito 2 ammonizioni, e per ciò verrà espulso");
+                        Console.WriteLine("Il giocatore " + rand + " della squadra A ha subito 2 ammonizioni, e per ciò verrà espulso");
                         squadraA[rand] = 0;
                     }
                     else if (cartellinoGialloB[rand] == 2) {
                        
-                        Console.WriteLine("Il giocatore " + squadraB[rand] + " ha subito 2 ammonizioni, e per ciò verrà espulso");
+                        Console.WriteLine("Il giocatore " + rand + " della squadra B ha subito 2 ammonizioni, e per ciò verrà espulso");
                         squadraB[rand] = 0;
                     }
                 }
