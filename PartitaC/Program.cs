@@ -25,13 +25,13 @@
         {
             for (int i = 0; i < squadra.Length; i++)
             {
-                Console.WriteLine("Il valore del " + i + " giocatore e " + squadra[i]);
+                Console.WriteLine("Il valore del " + (i + 1) + " giocatore e " + squadra[i]);
             }
 
             for (int i = 0; i < panchina.Length; i++)
             {
                 Console.WriteLine("------------------------------------------------------");
-                Console.WriteLine("Il valore del giocatore " + i + " in panchina e " + panchina[i]);
+                Console.WriteLine("Il valore del giocatore " + (i + 1) + " in panchina e " + panchina[i]);
             }
         }
         //funzione per la somma dei valori dei giocatori delle 2 squadre
@@ -45,6 +45,37 @@
             }
             return somma;
         }
+        static void Sostituzioni(int[] squadra, int[] panchina)
+        {
+            Console.WriteLine("Vuoi attuare una sostituzione?(s/n)");
+            string risp = Console.ReadLine();
+            if(risp == "s")
+            {
+                Console.WriteLine("Di quale squadra vuoi attuare la sostituzione?(A/B)");
+                risp = Console.ReadLine();
+                if(risp == "A")
+                {
+                    Console.WriteLine("scegli un giocatore della squadra A: ");
+                    Stampa(squadra, panchina);
+                    int scelta = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Adesso scegli un panchinaro della squadra A: ");
+                    int risposta = Convert.ToInt32(Console.ReadLine());
+                    squadra[scelta] = panchina[risposta];
+                    Console.WriteLine("Il titolare numero " + scelta + " e stato sostituito con il giocatore numero " + risposta + " della panchina");
+                }
+                else
+                {
+                    Console.WriteLine("scegli un giocatore della squadra B: ");
+                    Stampa(squadra, panchina);
+                    int scelta = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Adesso scegli un panchinaro della squadra B: ");
+                    int risposta = Convert.ToInt32(Console.ReadLine());
+                    squadra[scelta] = panchina[risposta];
+                    Console.WriteLine("Il titolare numero " + scelta + " e stato sostituito con il giocatore numero " + risposta);
+                }
+            }
+
+        }
         static void Main(string[] args)
         {
             //creazione dei vettori delle 2 squadre
@@ -52,7 +83,10 @@
             int[] squadraB = new int[11];
             int[] panchinaA = new int[5];
             int[] panchinaB = new int[5];
-            int[] cartellinoGiallo = new int[11];
+            int[] cartellinoGialloA = new int[11];
+            int[] cartellinoGialloB = new int[11];
+            int[] cartellinoRossoA = new int[11];
+            int[] cartellinoRossoB = new int[11];
             int a = 0, b = 0, puntiGol = 2;
             //probabilità del gol
             Random random = new Random();
@@ -123,19 +157,49 @@
                 //cartellino giallo
                 if (probabilità <= 20)
                 {
-                    int rnd = random.Next(1, 2);
+                    int rnd = random.Next(0,1);
                     int rand = random.Next(0, 10);
-                    if (rnd == 1)
+                    if (rnd == 0)
                     {
                         squadraA[rand] = squadraA[rand] - 5;
                         Console.WriteLine("Il giocatore " + rand + " della squadra A e stato ammonito con un cartellino giallo");
-                        cartellinoGiallo[rand] += 1;
-
+                        cartellinoGialloA[rand] += 1;
+                        Sostituzioni(squadraA, panchinaA);
                     }
                     else {
                         squadraB[rand] = squadraB[rand] - 5;
-                        Console.WriteLine("Il giocatore " + rand + " della squadra A e stato ammonito con un cartellino giallo");
-                        cartellinoGiallo[rand] += 1;
+                        Console.WriteLine("Il giocatore " + rand + " della squadra B e stato ammonito con un cartellino giallo");
+                        cartellinoGialloB[rand] += 1;
+                        Sostituzioni(squadraB, panchinaB);
+                    }
+                    if (cartellinoGialloA[rand] == 2)
+                    {
+                        
+                        Console.WriteLine("Il giocatore " + squadraA[rand] + " ha subito 2 ammonizioni, e per ciò verrà espulso");
+                        squadraA[rand] = 0;
+                    }
+                    else if (cartellinoGialloB[rand] == 2) {
+                       
+                        Console.WriteLine("Il giocatore " + squadraB[rand] + " ha subito 2 ammonizioni, e per ciò verrà espulso");
+                        squadraB[rand] = 0;
+                    }
+                }
+                else if(probabilità <= 22)
+                {   
+                    int rnd = random.Next(0, 1);
+                    int rand = random.Next(0, 10);
+                    if(rand == 0)
+                    {
+                        squadraA[rand] = 0;
+                        Console.WriteLine("Il giocatore " + rand + " della squadra A e stato espulso ed ora il suo valore e " + squadraA[rand]);
+                        cartellinoRossoA[rand] += 1;
+
+                    }
+                    else
+                    {
+                        squadraB[rand] = 0;
+                        Console.WriteLine("Il giocatore " + rand + " della squadra B e stato espulso ed ora il suo valore e " + squadraB[rand]);
+                        cartellinoRossoB[rand] += 1;
                     }
                 }
             }
