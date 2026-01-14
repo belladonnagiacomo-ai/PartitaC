@@ -45,6 +45,7 @@
             }
             return somma;
         }
+        //funzione per la sostituzione dei giocatori
         static void Sostituzioni(int[] squadra, int[] panchina)
         {
             Console.WriteLine("Vuoi attuare una sostituzione?(s/n)");
@@ -164,17 +165,19 @@
                         squadraA[rand] = squadraA[rand] - 5;
                         Console.WriteLine("Il giocatore " + rand + " della squadra A e stato ammonito con un cartellino giallo");
                         cartellinoGialloA[rand] += 1;
+                        //richiesta all'utente per una sostituzione
                         Sostituzioni(squadraA, panchinaA);
                     }
                     else {
                         squadraB[rand] = squadraB[rand] - 5;
                         Console.WriteLine("Il giocatore " + rand + " della squadra B e stato ammonito con un cartellino giallo");
                         cartellinoGialloB[rand] += 1;
+                        //richiesta all'utente per una sostituzione
                         Sostituzioni(squadraB, panchinaB);
                     }
                     if (cartellinoGialloA[rand] == 2)
                     {
-                        
+                        //espulsione del giocatore dopo 2 gialli
                         Console.WriteLine("Il giocatore " + rand + " della squadra A ha subito 2 ammonizioni, e per ciò verrà espulso");
                         squadraA[rand] = 0;
                     }
@@ -184,10 +187,11 @@
                         squadraB[rand] = 0;
                     }
                 }
+                //cartellino rosso
                 else if(probabilità <= 22)
                 {   
                     int rnd = random.Next(0, 1);
-                    int rand = random.Next(0, 10);
+                    int rand = random.Next(1, 11);
                     if(rand == 0)
                     {
                         squadraA[rand] = 0;
@@ -214,30 +218,96 @@
                 if (probabilità <= 2)
                 {
                     //somma dei valori della squadra A
-                    int sommaA = Somma(squadraA);
+                    float sommaA = Somma(squadraA);
                     //somma dei valori della squadra B
-                    int sommaB = Somma(squadraB);
+                    float sommaB = Somma(squadraB);
                     //calcolo della somma totale
-                    int sommaTotale = sommaA + sommaB;
+                    float sommaTotale = sommaA + sommaB;
                     //calcolo probabilità gol della squadra A
                     float probabilitàGolA = (sommaA / sommaTotale) * 100;
                     //calcolo probabilità gol della squadra B
                     float probabilitàGolB = (sommaB / sommaTotale) * 100;
-                    if (probabilitàGolA > probabilitàGolB)
+                    float gol = random.Next(1, 100);
+                    if (gol <= probabilitàGolA)
                     {
                         //Gol segnato dalla squadra A
                         a++;
+
                         Console.WriteLine("Ha segnato la squadra A al minuto " + i + " e il punteggio e: " + a + " per la squadra A e " + b + " per la squadra B");
+                        for (int z = 0; z < squadraA.Length; z++)
+                        {
+                            squadraA[z] = puntiGol + squadraA[z];
+
+                        }
                         Console.WriteLine("------------------------------------------------------");
+
                     }
                     else
                     {
                         //Gol segnato dalla squadra B
                         b++;
                         Console.WriteLine("Ha segnato la squadra B al minuto " + i + " e il punteggio e: " + a + " per la squadra A e " + b + " per la squadra B");
-                        Console.WriteLine("------------------------------------------------------");
-                    }
+                        for (int z = 0; z < squadraB.Length; z++)
+                        {
+                            squadraB[z] = puntiGol + squadraB[z];
 
+                        }
+                        Console.WriteLine("------------------------------------------------------");
+
+                    }
+                    //cartellino giallo
+                    if (probabilità <= 20)
+                    {
+                        int rnd = random.Next(0, 1);
+                        int rand = random.Next(1, 11);
+                        if (rnd == 0)
+                        {
+                            squadraA[rand] = squadraA[rand] - 5;
+                            Console.WriteLine("Il giocatore " + rand + " della squadra A e stato ammonito con un cartellino giallo");
+                            cartellinoGialloA[rand] += 1;
+                            //richiesta all'utente per una sostituzione
+                            Sostituzioni(squadraA, panchinaA);
+                        }
+                        else
+                        {
+                            squadraB[rand] = squadraB[rand] - 5;
+                            Console.WriteLine("Il giocatore " + rand + " della squadra B e stato ammonito con un cartellino giallo");
+                            cartellinoGialloB[rand] += 1;
+                            //richiesta all'utente per una sostituzione
+                            Sostituzioni(squadraB, panchinaB);
+                        }
+                        if (cartellinoGialloA[rand] == 2)
+                        {
+                            //espulsione del giocatore dopo 2 gialli
+                            Console.WriteLine("Il giocatore " + rand + " della squadra A ha subito 2 ammonizioni, e per ciò verrà espulso");
+                            squadraA[rand] = 0;
+                        }
+                        else if (cartellinoGialloB[rand] == 2)
+                        {
+
+                            Console.WriteLine("Il giocatore " + rand + " della squadra B ha subito 2 ammonizioni, e per ciò verrà espulso");
+                            squadraB[rand] = 0;
+                        }
+                    }
+                    // cartellino rosso
+                    else if (probabilità <= 22)
+                    {
+                        int rnd = random.Next(0, 1);
+                        int rand = random.Next(1, 11);
+                        if (rand == 0)
+                        {
+                            squadraA[rand] = 0;
+                            Console.WriteLine("Il giocatore " + rand + " della squadra A e stato espulso ed ora il suo valore e " + squadraA[rand]);
+                            cartellinoRossoA[rand] += 1;
+
+                        }
+                        else
+                        {
+                            squadraB[rand] = 0;
+                            Console.WriteLine("Il giocatore " + rand + " della squadra B e stato espulso ed ora il suo valore e " + squadraB[rand]);
+                            cartellinoRossoB[rand] += 1;
+                        }
+                    }
 
 
                 }
