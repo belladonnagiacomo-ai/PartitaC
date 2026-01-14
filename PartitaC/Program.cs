@@ -273,7 +273,7 @@
                             squadraB[rand] = squadraB[rand] - 5;
                             Console.WriteLine("Il giocatore " + rand + " della squadra B e stato ammonito con un cartellino giallo");
                             cartellinoGialloB[rand] += 1;
-                            //richiesta all'utente per una sostituzione
+                            //richiesta all'utente di una sostituzione
                             Sostituzioni(squadraB, panchinaB);
                         }
                         if (cartellinoGialloA[rand] == 2)
